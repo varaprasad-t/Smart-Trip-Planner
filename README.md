@@ -54,14 +54,22 @@ It allows users to create detailed day-by-day travel plans using Google Sign-In 
 
 ## 🛠 Tech Stack
 
-- **Flutter (Dart)**
-- **Firebase Auth**
-- **Gemini AI API**
-  - `gemini-1.5-flash`
-  - `gemini-2.5-pro`
-- **Hive** (offline storage)
-- **URL Launcher** (Google Maps integration)
-- **Flutter Dotenv** (environment variables)
+| **Category**      | **Tools** |
+|-------------------|-----------|
+| **Frontend**      | Flutter (Dart) |
+| **Backend / APIs**| Firebase Auth, Gemini AI API (`gemini-1.5-flash`, `gemini-2.5-pro`) |
+| **Storage**       | Hive (Offline storage) |
+| **Integrations**  | URL Launcher (Google Maps integration) |
+| **Configuration** | Flutter Dotenv (Environment variables) |
+
+💾 **Storage**
+- Hive (Offline storage)
+
+🌐 **Integrations**
+- URL Launcher (Google Maps integration)
+
+⚙ **Configuration**
+- Flutter Dotenv (Environment variables)
 
 ---
 
@@ -82,11 +90,42 @@ It allows users to create detailed day-by-day travel plans using Google Sign-In 
 
 | Error - Quota | Error - Overload | Error - No Network |
 |---------------|------------------|--------------------|
-| ![ErrorQuota](screenshots/error_quota.png) | ![ErrorOverload](screenshots/error_overload.png) | ![ErrorNoNetwork](screenshots/error_no_network.png) |
+| ![ErrorQuota](screenshots/error_quota.png) | ![ErrorOverload](screenshots/error_overload.png) | ![ErrorNoNetwork](screenshots/error_nonetwork.png) |
 
 ---
 
-> 📌 **Note:** Place all your screenshot images in a `screenshots/` folder in the project root, and rename them to match the file names above.
+## 🔄 How the Agent Chain Works
+
+1. **User enters a travel prompt** (e.g., “3-day trip to Manali for hiking and food”)
+2. **Gemini 1.5 Flash is called** with the prompt
+3. **If Flash fails** (due to overload or quota), fallback to **Gemini 2.5 Pro**
+4. **API response** (structured day-by-day itinerary) is parsed and validated as JSON
+5. Itinerary is shown in chat interface and can be saved offline
+6. User can follow-up using chat → same agent is reused with context (history, last JSON, prompt)
+
+---
+
+## 💰 Token Cost (Mocked Per Request)
+
+To help visualize API usage and cost in the UI, a **fixed cost-per-request model** was used instead of actual token counting:
+
+| Action                       | Request Cost | Response Cost | Total |
+|------------------------------|--------------|----------------|-------|
+| Initial Itinerary Generation | \$0.05       | \$0.08         | **\$0.13** |
+| Follow-Up Query              | \$0.05       | \$0.08         | **\$0.13** |
+| Gemini 2.5 Pro Fallback      | \$0.05       | \$0.08         | **\$0.13** |
+
+> These are **mock values** for demo purposes only. Actual token usage and pricing were not implemented.
+
+### 📌 Why?
+This mock model was used to:
+- Help visualize cost tracking
+- Keep implementation simple without real-time token breakdown
+- Avoid unnecessary complexity during early-stage development
+
+---
+
+
 
 ## 📦 Setup Instructions
 
@@ -141,6 +180,13 @@ lib/
 └── utils/
     └── debug_helper.dart
 ```
+
+---
+## 🔄 Data Flow
+
+Below is the high-level data flow of the **Smart Trip Planner** app:
+
+![Data Flow Diagram](screenshots/data_flow.png)
 
 ---
 
