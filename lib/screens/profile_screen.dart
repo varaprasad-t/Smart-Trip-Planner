@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_trip_planner/screens/login_screen.dart';
@@ -14,59 +15,93 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final user = FirebaseAuth.instance.currentUser;
+  Future<bool> _hasInternet() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    return connectivityResult != ConnectivityResult.none;
+  }
 
+  final user = FirebaseAuth.instance.currentUser;
   final AuthService _auth = AuthService();
+
   Future<void> _editNameDialog() async {
     final nameController = TextEditingController(
       text: FirebaseAuth.instance.currentUser?.displayName ?? "",
     );
     bool isLoading = false;
-    await showDialog(
+    await showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setStateDialog) {
-            return AlertDialog(
-              title: const Text("Edit Name"),
-              content: Column(
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 16,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+              ),
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Container(
+                    width: 40,
+                    height: 4,
+                    margin: const EdgeInsets.only(bottom: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[400],
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const Text(
+                    "Edit Name",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
                   TextField(
                     controller: nameController,
-                    decoration: const InputDecoration(labelText: "Your Name"),
+                    decoration: const InputDecoration(
+                      labelText: "Your Name",
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                   if (isLoading) ...[
                     const SizedBox(height: 16),
                     const CircularProgressIndicator(),
                   ],
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("Cancel"),
+                      ),
+                      ElevatedButton(
+                        onPressed: isLoading
+                            ? null
+                            : () async {
+                                setStateDialog(() {
+                                  isLoading = true;
+                                });
+                                final currentUser =
+                                    FirebaseAuth.instance.currentUser;
+                                await currentUser?.updateDisplayName(
+                                  nameController.text.trim(),
+                                );
+                                await currentUser?.reload();
+                                setState(() {});
+                                Navigator.pop(context);
+                              },
+                        child: const Text("Save"),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Cancel"),
-                ),
-                ElevatedButton(
-                  onPressed: isLoading
-                      ? null
-                      : () async {
-                          setStateDialog(() {
-                            isLoading = true;
-                          });
-                          final currentUser = FirebaseAuth.instance.currentUser;
-                          await currentUser?.updateDisplayName(
-                            nameController.text.trim(),
-                          );
-                          await currentUser?.reload();
-                          setState(
-                            () {},
-                          ); // refresh profile screen with updated user info
-                          Navigator.pop(context);
-                        },
-                  child: const Text("Save"),
-                ),
-              ],
             );
           },
         );
@@ -91,6 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ? FirebaseAuth.instance.currentUser!.displayName!
         : 'Traveler';
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
         backgroundColor: const Color(0xFFF8F9FA),
@@ -125,7 +161,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 ),
-
                 child: Column(
                   children: [
                     Row(
@@ -133,21 +168,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: CircleAvatar(
+                            radius: 30,
                             backgroundColor: const Color.fromARGB(
                               255,
                               45,
                               105,
                               47,
                             ),
-                            radius: 30,
-                            child: Text(
-                              debugSafeFirstChar(safeName).toUpperCase(),
-                              style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
+                            backgroundImage:
+                                FirebaseAuth.instance.currentUser?.photoURL !=
+                                    null
+                                ? NetworkImage(
+                                    FirebaseAuth
+                                        .instance
+                                        .currentUser!
+                                        .photoURL!,
+                                  )
+                                : null,
+                            child:
+                                FirebaseAuth.instance.currentUser?.photoURL ==
+                                    null
+                                ? Text(
+                                    debugSafeFirstChar(safeName).toUpperCase(),
+                                    style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : null,
                           ),
                         ),
                         Padding(
@@ -440,15 +489,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Image.network(
-                  'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png',
+                icon: Image.asset(
+                  'assets/images/git.png',
                   height: 36,
                   width: 36,
                 ),
                 onPressed: () async {
-                  final Uri url = Uri.parse('https://github.com/varaprasad-t');
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url, mode: LaunchMode.externalApplication);
+                  if (await _hasInternet()) {
+                    final Uri url = Uri.parse(
+                      'https://github.com/varaprasad-t',
+                    );
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(
+                        url,
+                        mode: LaunchMode.externalApplication,
+                      );
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('No internet connection')),
+                    );
                   }
                 },
                 tooltip: 'View GitHub Profile',
@@ -459,17 +519,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 36,
                   width: 36,
                 ),
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Coming soon!'),
-                      duration: Duration(seconds: 1),
-                    ),
-                  );
+                onPressed: () async {
+                  if (await _hasInternet()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Coming soon!')),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('No internet connection')),
+                    );
+                  }
                 },
                 tooltip: 'LinkedIn (coming soon)',
               ),
-
               IconButton(
                 icon: Image.asset(
                   'assets/images/instagram.png',
@@ -477,11 +539,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: 36,
                 ),
                 onPressed: () async {
-                  final Uri url = Uri.parse(
-                    'https://www.instagram.com/_iamvaraprasad_/',
-                  );
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url, mode: LaunchMode.externalApplication);
+                  if (await _hasInternet()) {
+                    final Uri url = Uri.parse(
+                      'https://www.instagram.com/_iamvaraprasad_/',
+                    );
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(
+                        url,
+                        mode: LaunchMode.externalApplication,
+                      );
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('No internet connection')),
+                    );
                   }
                 },
                 tooltip: 'Instagram',

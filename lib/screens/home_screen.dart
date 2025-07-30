@@ -8,7 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smart_trip_planner/utils/debug_helper.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -74,19 +74,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
                 child: CircleAvatar(
+                  radius: 20,
                   backgroundColor: const Color.fromARGB(255, 45, 105, 47),
-                  radius: 30,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 1),
-                    child: Text(
-                      debugSafeFirstChar(safeName).toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                  backgroundImage:
+                      FirebaseAuth.instance.currentUser?.photoURL != null
+                      ? NetworkImage(
+                          FirebaseAuth.instance.currentUser!.photoURL!,
+                        )
+                      : null,
+                  child: FirebaseAuth.instance.currentUser?.photoURL == null
+                      ? Text(
+                          FirebaseAuth
+                                      .instance
+                                      .currentUser
+                                      ?.displayName
+                                      ?.isNotEmpty ==
+                                  true
+                              ? FirebaseAuth
+                                    .instance
+                                    .currentUser!
+                                    .displayName![0]
+                                    .toUpperCase()
+                              : 'T', // fallback letter
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        )
+                      : null,
                 ),
               ),
             ),

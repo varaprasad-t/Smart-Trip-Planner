@@ -435,19 +435,30 @@ Return only valid JSON, no extra commentary.
                 );
               },
               child: CircleAvatar(
-                backgroundColor: const Color.fromARGB(255, 45, 105, 47),
                 radius: 20,
-                child: Text(
-                  debugSafeFirstChar(
-                    FirebaseAuth.instance.currentUser?.displayName ??
-                        'Traveler',
-                  ).toUpperCase(),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+                backgroundColor: const Color.fromARGB(255, 45, 105, 47),
+                backgroundImage:
+                    FirebaseAuth.instance.currentUser?.photoURL != null
+                    ? NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!)
+                    : null,
+                child: FirebaseAuth.instance.currentUser?.photoURL == null
+                    ? Text(
+                        FirebaseAuth
+                                    .instance
+                                    .currentUser
+                                    ?.displayName
+                                    ?.isNotEmpty ==
+                                true
+                            ? FirebaseAuth.instance.currentUser!.displayName![0]
+                                  .toUpperCase()
+                            : 'T', // fallback letter
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      )
+                    : null,
               ),
             ),
           ),
@@ -780,15 +791,17 @@ Return only valid JSON, no extra commentary.
   Widget _buildItineraryContent() {
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.0),
-          child: Center(
-            child: Text(
-              "Itinerary Created ✈️",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
+        widget.isOffline
+            ? const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                child: Center(
+                  child: Text(
+                    "Itinerary Created ✈️",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+            : Text(''),
         Expanded(
           child: ListView.builder(
             controller: _scrollController,

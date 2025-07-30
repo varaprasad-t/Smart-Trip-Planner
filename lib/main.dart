@@ -11,13 +11,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Hive
   await Hive.initFlutter();
   await Hive.openBox('savedTrips');
   await Hive.openBox('userTokens');
   await Hive.openBox('usageCost');
 
-  // Env
   try {
     await dotenv.load(fileName: ".env");
     debugPrint('env success');
@@ -36,7 +34,6 @@ void main() async {
     ),
   );
 
-  // Run app instantly
   runApp(MyApp());
 }
 
