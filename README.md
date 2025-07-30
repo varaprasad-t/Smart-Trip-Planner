@@ -152,10 +152,6 @@ When generating itineraries:
 
 ---
 
-## 📹 Demo Video
-[Add your Loom/Google Drive demo video link here]
-
----
 
 ## 📄 License
 This project is for educational purposes only and should not be used commercially without modifications.
