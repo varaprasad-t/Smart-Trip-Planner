@@ -8,7 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smart_trip_planner/screens/profile_screen.dart';
 import 'package:smart_trip_planner/utils/debug_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:smart_trip_planner/services/openai_service.dart'
+import 'package:smart_trip_planner/services/gemini_service.dart'
     show GeminiService;
 
 class ChatScreen extends StatefulWidget {
@@ -319,7 +319,7 @@ Return only valid JSON, no extra commentary.
     final gemini = GeminiService();
     print("📡 Sending request to Gemini...");
     print("📝 Prompt sent to API: ${widget.prompt}");
-    // Add user message before sending to API
+
     itineraryHistory.add({'role': 'user', 'content': widget.prompt});
     try {
       final result = await gemini.generateItinerary(widget.prompt);
@@ -339,8 +339,8 @@ Return only valid JSON, no extra commentary.
       final costBox = Hive.box('usageCost');
       final promptTokens = estimateTokens(widget.prompt);
       final responseTokens = estimateTokens(result.toString());
-      const promptRate = 0.05; // $ per 1K tokens
-      const completionRate = 0.08; // $ per 1K tokens
+      const promptRate = 0.05;
+      const completionRate = 0.08;
       final promptCost = (promptTokens / 1000) * promptRate;
       final completionCost = (responseTokens / 1000) * completionRate;
       final totalCost = promptCost + completionCost;
@@ -366,8 +366,6 @@ Return only valid JSON, no extra commentary.
       return;
     }
 
-    // Animate typing for both real and mock data
-    // Find last AI message for title animation
     final lastAi = itineraryHistory.lastWhere(
       (msg) =>
           msg['role'] == 'ai' &&
@@ -388,7 +386,7 @@ Return only valid JSON, no extra commentary.
           });
         } else {
           timer.cancel();
-          _controller.forward(); // start slide animation after typing done
+          _controller.forward();
           setState(() {
             isLoading = false;
           });

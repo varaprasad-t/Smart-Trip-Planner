@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_trip_planner/screens/chat_screen.dart';
 import 'package:smart_trip_planner/screens/profile_screen.dart';
-import 'package:hive/hive.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smart_trip_planner/utils/debug_helper.dart';
 
