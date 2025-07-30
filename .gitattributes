@@ -1,10 +1,20 @@
+# Count Dart files normally
 *.dart linguist-detectable=true
-*.html linguist-detectable=false
-*.css linguist-detectable=false
-*.js linguist-detectable=false
+
+# Keep native Android/iOS XML, Kotlin, Swift counted
+*.xml linguist-detectable=true
+*.gradle linguist-detectable=true
+*.swift linguist-detectable=true
+*.kt linguist-detectable=true
+
+# Ignore generated Flutter web build files
 /web/** linguist-detectable=false
-/ios/** linguist-detectable=false
-/android/** linguist-detectable=false
-/windows/** linguist-detectable=false
-/macos/** linguist-detectable=false
-/linux/** linguist-detectable=false
+
+# Mark typical vendored files (not counted for language stats)
+*.html linguist-vendored
+*.css linguist-vendored
+*.js linguist-vendored
+
+# Ignore auto-generated localization or config files
+*.arb linguist-vendored
+*.g.dart linguist-vendored
