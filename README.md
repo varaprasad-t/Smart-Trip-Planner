@@ -84,8 +84,10 @@ It allows users to create detailed day-by-day travel plans using Google Sign-In 
 |---------|------------------------|------------------|
 | ![Profile](screenshots/profile.png) | ![SavedFile](screenshots/saved_file.png) | ![FollowUp](screenshots/followup.png) |
 
-| Follow-Up Generating | Follow-Up Error | Loading Screen |
-|----------------------|-----------------|----------------|
+| Follow-Up Generating |  Loading Screen |
+|----------------------|------------------|
+| ![Profile](screenshots/followup_generating.png) |  ![FollowUp](screenshots/loading.png) |
+
 
 | Error - Quota | Error - Overload | Error - No Network |
 |---------------|------------------|--------------------|
