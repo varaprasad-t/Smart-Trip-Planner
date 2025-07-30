@@ -204,11 +204,23 @@ lib/
 ```
 
 ---
-## 🔄 Data Flow
+## 🔄 App Data Flow
 
-Below is the high-level data flow of the **Smart Trip Planner** app:
+```mermaid
+flowchart TD
+    A["User Input <br/> (Search Query, Follow-up Request)"] 
+      --> B["BLoC State Management <br/> (Handles Events & States)"]
 
-![Data Flow Diagram](screenshots/data_flow.png)
+    B --> C["Domain Use Cases <br/> (Business Logic & Validation)"]
+
+    C --> D["Repository Interface <br/> (Abstract Data Access Layer)"]
+
+    D --> E["Data Layer <br/> Firebase Auth, Gemini API"]
+
+    E --> F["Response Processing <br/> Parse AI JSON, Format Itinerary"]
+
+    F --> G["UI Update <br/> Display Itinerary & Suggestions"]
+```
 
 ---
 
