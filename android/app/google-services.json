@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "269088732896",
+    "project_id": "tripplanner-97684",
+    "storage_bucket": "tripplanner-97684.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:269088732896:android:042e320cb804af3ac54285",
+        "android_client_info": {
+          "package_name": "com.example.smart_trip_fixed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "269088732896-sk9btnh58ghggh4qm255n22u9f9kc16l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smart_trip_fixed",
+            "certificate_hash": "069ecc644d1e9a6acb657f9071185f5ded02db07"
+          }
+        },
+        {
+          "client_id": "269088732896-08v3gno7q0p8nel1fltda70gbgefl2eo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhuulSAOHi4TJxnR2UkEg3SpdEiFJd-KQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "269088732896-08v3gno7q0p8nel1fltda70gbgefl2eo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "269088732896-6nrffngijrm7u0rd9gv1bjlqksq468l2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.smartTripFixed"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
