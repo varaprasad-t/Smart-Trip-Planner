@@ -73,6 +73,14 @@ It allows users to create detailed day-by-day travel plans using Google Sign-In 
 
 ---
 
+## 🎥 App Demo
+
+Here’s a quick demo of **Smart Trip Planner** in action:  
+
+[▶️ Click here to watch the demo](https://drive.google.com/drive/folders/1YS41RtVYHTPhxhTZVkADV8lOXSYObh6A)
+
+---
+
 
 ## 🏗 App Architecture Flow
 
