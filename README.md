@@ -72,32 +72,22 @@ It allows users to create detailed day-by-day travel plans using Google Sign-In 
 - Flutter Dotenv (Environment variables)
 
 ---
+
+
 ## 🏗 App Architecture Flow
 
 ```mermaid
 flowchart TD
-    A[UI Layer - Flutter Screens  
-      • Home, Chat, Profile, Itinerary View] 
-      --> B[Service Layer  
-      • Firebase Auth (Login/Signup)  
-      • URL Launcher (Maps Integration)]
+    A[UI Layer - Flutter Screens <br/> Home, Chat, Profile, Itinerary View] 
+      --> B[Service Layer <br/> Firebase Auth (Login/Signup), URL Launcher (Maps Integration)]
     
-    B --> C[AI Logic Layer  
-      • Gemini 1.5 Flash (Fast Responses)  
-      • Gemini 2.5 Pro (Detailed Itineraries)  
-      • Prompt Building & Parsing]
+    B --> C[AI Logic Layer <br/> Gemini 1.5 Flash (Fast Responses), Gemini 2.5 Pro (Detailed Itineraries), Prompt Building & Parsing]
     
-    C --> D[Local Storage Layer - Hive  
-      • Save Itineraries Offline  
-      • Token & Cost Tracking]
+    C --> D[Local Storage Layer - Hive <br/> Save Itineraries Offline, Token & Cost Tracking]
     
-    C --> E[Fallback Handling Layer  
-      • Offline Mode Support  
-      • API Error Handling (503, JSON Errors)  
-      • Loading States]
+    C --> E[Fallback Handling Layer <br/> Offline Mode Support, API Error Handling (503, JSON Errors), Loading States]
     
-    D --> F[UI Update  
-      • Refresh Screens with New Data]
+    D --> F[UI Update <br/> Refresh Screens with New Data]
     
     E --> F
 ```
