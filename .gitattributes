@@ -1,0 +1,10 @@
+*.dart linguist-detectable=true
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.js linguist-detectable=false
+/web/** linguist-detectable=false
+/ios/** linguist-detectable=false
+/android/** linguist-detectable=false
+/windows/** linguist-detectable=false
+/macos/** linguist-detectable=false
+/linux/** linguist-detectable=false
