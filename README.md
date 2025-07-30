@@ -206,20 +206,22 @@ lib/
 ---
 ## 🔄 App Data Flow
 
+
 ```mermaid
 flowchart TD
-    A["User Input <br/> (Search Query, Follow-up Request)"] 
-      --> B["BLoC State Management <br/> (Handles Events & States)"]
+    A["User Input <br/> (Trip Prompt, Follow-up Request)"] 
+      --> B["UI Layer <br/> Flutter Screens & Widgets"]
 
-    B --> C["Domain Use Cases <br/> (Business Logic & Validation)"]
+    B --> C["Service Layer <br/> Firebase Auth, URL Launcher"]
 
-    C --> D["Repository Interface <br/> (Abstract Data Access Layer)"]
+    C --> D["AI Logic Layer <br/> Gemini 1.5 Flash / 2.5 Pro, Prompt Handling"]
 
-    D --> E["Data Layer <br/> Firebase Auth, Gemini API"]
+    D --> E["Local Storage <br/> Hive - Save Itineraries, Tokens, Costs"]
 
-    E --> F["Response Processing <br/> Parse AI JSON, Format Itinerary"]
+    D --> F["Fallback Handling <br/> Offline Mode, API Error Handling"]
 
-    F --> G["UI Update <br/> Display Itinerary & Suggestions"]
+    E --> G["UI Update <br/> Display Itinerary & Suggestions"]
+    F --> G
 ```
 
 ---
