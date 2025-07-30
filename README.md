@@ -54,14 +54,22 @@ It allows users to create detailed day-by-day travel plans using Google Sign-In 
 
 ## 🛠 Tech Stack
 
-- **Flutter (Dart)**
-- **Firebase Auth**
-- **Gemini AI API**
-  - `gemini-1.5-flash`
-  - `gemini-2.5-pro`
-- **Hive** (offline storage)
-- **URL Launcher** (Google Maps integration)
-- **Flutter Dotenv** (environment variables)
+| **Category**      | **Tools** |
+|-------------------|-----------|
+| **Frontend**      | Flutter (Dart) |
+| **Backend / APIs**| Firebase Auth, Gemini AI API (`gemini-1.5-flash`, `gemini-2.5-pro`) |
+| **Storage**       | Hive (Offline storage) |
+| **Integrations**  | URL Launcher (Google Maps integration) |
+| **Configuration** | Flutter Dotenv (Environment variables) |
+
+💾 **Storage**
+- Hive (Offline storage)
+
+🌐 **Integrations**
+- URL Launcher (Google Maps integration)
+
+⚙ **Configuration**
+- Flutter Dotenv (Environment variables)
 
 ---
 
@@ -82,11 +90,11 @@ It allows users to create detailed day-by-day travel plans using Google Sign-In 
 
 | Error - Quota | Error - Overload | Error - No Network |
 |---------------|------------------|--------------------|
-| ![ErrorQuota](screenshots/error_quota.png) | ![ErrorOverload](screenshots/error_overload.png) | ![ErrorNoNetwork](screenshots/error_no_network.png) |
+| ![ErrorQuota](screenshots/error_quota.png) | ![ErrorOverload](screenshots/error_overload.png) | ![ErrorNoNetwork](screenshots/error_nonetwork.png) |
 
 ---
 
-> 📌 **Note:** Place all your screenshot images in a `screenshots/` folder in the project root, and rename them to match the file names above.
+
 
 ## 📦 Setup Instructions
 
@@ -141,6 +149,13 @@ lib/
 └── utils/
     └── debug_helper.dart
 ```
+
+---
+## 🔄 Data Flow
+
+Below is the high-level data flow of the **Smart Trip Planner** app:
+
+![Data Flow Diagram](screenshots/data_flow.png)
 
 ---
 
